@@ -1,5 +1,6 @@
 ##EXERCISE 0.4
 
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -36,7 +37,6 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser reload because of the form behaviour to refresh the page after submission
-
-
+```
 
 
