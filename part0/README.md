@@ -1,5 +1,6 @@
-##EXERCISE 0.4
+<h2>EXERCISE 0.4</h2>
 
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -36,7 +37,38 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser reload because of the form behaviour to refresh the page after submission
+```
 
+<h2>EXERCISE 0.5</h2>
+
+'''mermaid
+
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server ->> browser: HTML document
+    deactivate server
+    
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/notes/main.css
+    activate server
+    server ->> browser: the css file
+    deactivate server
+
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/notes/spa.js
+    activate server
+    server ->> browser: the Javascript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/notes/data.json
+    activate server
+    server ->> browser: [{"content":"sup","date":"2023-05-12T16:15:36.223Z"}, ... ]
+    deactivate server
+'''
 
 
 
