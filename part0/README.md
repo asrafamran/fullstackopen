@@ -1,3 +1,5 @@
+##EXERCISE 0.4
+
 sequenceDiagram
     participant browser
     participant server
@@ -27,9 +29,16 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes
 
     browser ->> server: POST https://studies.cs.helsinki.fi/exampleapp/new_notes
+    Note right of server: The server save the data into data.json
     activate server
     Note right of server: The server save the data into data.json
     server ->> browser: json.data file
     deactivate server
 
     Note right of browser: The browser reload because of the form behaviour to refresh the page after submission
+
+
+
+
+##EXERCISE 0.5
+
