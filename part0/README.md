@@ -41,7 +41,7 @@ sequenceDiagram
 
 <h2>EXERCISE 0.5</h2>
 
-'''mermaid
+```mermaid
 
 sequenceDiagram
     participant browser
@@ -70,12 +70,12 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser executes the callback function that renders the spa
-'''
+```
 
 
 <h2>EXERCISE 0.6</h2>
 
-'''mermaid
+```mermaid
 
 sequenceDiagram
     participant browser
@@ -114,7 +114,7 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser got appended the new result save by the user by using javascript so no refresh needed.
-'''
+```
 
 
 
