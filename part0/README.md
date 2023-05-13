@@ -36,11 +36,7 @@ sequenceDiagram
     server ->> browser: json.data file
     deactivate server
 
-<<<<<<< HEAD
     Note right of browser: The browser reload because of the form behaviour to refresh the page after submission
-```
-=======
-    Note right of browser: The browser reload because of the form behaviour to refresh the page after submission and the process restart from first.
 ```
 
 <h2>EXERCISE 0.5</h2>
@@ -119,6 +115,6 @@ sequenceDiagram
 
     Note right of browser: The browser got appended the new result save by the user by using javascript so no refresh needed.
 '''
->>>>>>> exercise-0.4-0.6
+
 
 
