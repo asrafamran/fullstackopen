@@ -40,5 +40,3 @@ sequenceDiagram
 
 
 
-##EXERCISE 0.5
-
