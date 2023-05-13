@@ -114,6 +114,7 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser got appended the new result save by the user by using javascript so no refresh needed.
+    Note right of browser: The browser starts executing the JavaScript
 ```
 
 
