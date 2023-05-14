@@ -25,7 +25,7 @@ const App = () => {
     return (
       <>
         <p>
-          Hello
+          Hello {" "}
           {props.parts[0].name} {props.parts[0].exercises}
         </p>
         <p>
