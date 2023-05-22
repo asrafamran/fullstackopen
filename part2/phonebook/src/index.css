@@ -1,0 +1,25 @@
+.border_added {
+  background-color: rgb(196, 196, 196);
+  border: 3px;
+  border-color: green;
+  border-radius: 5px;
+  padding: 1px;
+  padding-left: 10px;
+}
+
+.border-delete{
+    background-color: rgb(196, 196, 196);
+    border: 3px;
+    border-color: red;
+    border-radius: 5px;
+    padding: 1px;
+    padding-left: 10px;
+  }
+
+.text_added {
+  color: green;
+}
+
+.text_error {
+  color: red;
+}
