@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import countriesService from "./services/countries";
 
-const ShowCountry = ({ countries, countrySelect }) => {
+// require("dotenv").config();
+
+const ShowCountry = ({ countries, countrySelect, weather }) => {
   const country = countries.find(
     (c, index) => c.name.official === countrySelect
   );
@@ -23,6 +25,22 @@ const ShowCountry = ({ countries, countrySelect }) => {
         })}
       </ul>
       <img src={country.flags["png"]} alt={country.flags["alt"]} />
+
+      <h2>Weather in {country.capital}</h2>
+      {weather && (
+        <>
+          <p>Temperature {weather.main["temp"]}</p>
+          <img
+            src={
+              `https://openweathermap.org/img/wn/` +
+              weather.weather[0]["icon"] +
+              "@2x.png"
+            }
+            alt={weather.weather[0]["icon"]}
+          />
+          <p>wind {weather.wind["speed"]} m/s</p>
+        </>
+      )}
     </>
   );
 };
@@ -31,6 +49,7 @@ function App() {
   const [search, setSearch] = useState(null);
   const [countries, setCountries] = useState([]);
   const [showDetail, setShowDetail] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     countriesService
@@ -51,6 +70,12 @@ function App() {
 
   const handleDetails = (name) => {
     setShowDetail(name);
+    const country = countries.find((c, index) => c.name.official === name);
+    getWeather(country.latlng[0], country.latlng[1]);
+  };
+
+  const getWeather = (lat, lang) => {
+    countriesService.getWeather(lat, lang).then((res) => setWeather(res.data));
   };
 
   return (
@@ -70,24 +95,42 @@ function App() {
           )
           .map((country) => {
             return (
-              <>
-                <h1>{country.name.official}</h1>
-                <br />
-                {country.capital.map((capital, i) => {
-                  return <p key={i}>{capital}</p>;
-                })}
-                <p>{country.area}</p>
-                <br />
-                <p>
-                  <b>languges:</b>
-                </p>
-                <ul>
-                  {Object.keys(country.languages).map((key, value) => {
-                    return <li>{country.languages[key]}</li>;
+              !showDetail && (
+                <>
+                  <h1>{country.name.official}</h1>
+                  <br />
+                  {country.capital.map((capital, i) => {
+                    return <p key={i}>{capital}</p>;
                   })}
-                </ul>
-                <img src={country.flags["png"]} alt={country.flags["alt"]} />
-              </>
+                  <p>{country.area}</p>
+                  <br />
+                  <p>
+                    <b>languges:</b>
+                  </p>
+                  <ul>
+                    {Object.keys(country.languages).map((key, value) => {
+                      return <li key={value}>{country.languages[key]}</li>;
+                    })}
+                  </ul>
+                  <img src={country.flags["png"]} alt={country.flags["alt"]} />
+
+                  <h2>Weather in {country.capital}</h2>
+                  {weather && (
+                    <>
+                      <p>Temperature {weather.main["temp"]}</p>
+                      <img
+                        src={
+                          `https://openweathermap.org/img/wn/` +
+                          weather.weather[0]["icon"] +
+                          "@2x.png"
+                        }
+                        alt={weather.weather[0]["icon"]}
+                      />
+                      <p>wind {weather.wind["speed"]} m/s</p>
+                    </>
+                  )}
+                </>
+              )
             );
           })
       ) : (
@@ -109,7 +152,11 @@ function App() {
           })
       )}
       {showDetail && (
-        <ShowCountry countries={countries} countrySelect={showDetail} />
+        <ShowCountry
+          countries={countries}
+          countrySelect={showDetail}
+          weather={weather}
+        />
       )}
     </div>
   );
