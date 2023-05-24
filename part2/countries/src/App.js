@@ -1,9 +1,36 @@
 import { useState, useEffect } from "react";
 import countriesService from "./services/countries";
 
+const ShowCountry = ({ countries, countrySelect }) => {
+  const country = countries.find(
+    (c, index) => c.name.official === countrySelect
+  );
+  return (
+    <>
+      <h1>{country.name.official}</h1>
+      <br />
+      {country.capital.map((capital, i) => {
+        return <p key={i}>{capital}</p>;
+      })}
+      <p>{country.area}</p>
+      <br />
+      <p>
+        <b>languges:</b>
+      </p>
+      <ul>
+        {Object.keys(country.languages).map((key, value) => {
+          return <li key={value}>{country.languages[key]}</li>;
+        })}
+      </ul>
+      <img src={country.flags["png"]} alt={country.flags["alt"]} />
+    </>
+  );
+};
+
 function App() {
   const [search, setSearch] = useState(null);
   const [countries, setCountries] = useState([]);
+  const [showDetail, setShowDetail] = useState(null);
 
   useEffect(() => {
     countriesService
@@ -19,6 +46,11 @@ function App() {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    setShowDetail(null);
+  };
+
+  const handleDetails = (name) => {
+    setShowDetail(name);
   };
 
   return (
@@ -50,11 +82,11 @@ function App() {
                   <b>languges:</b>
                 </p>
                 <ul>
-                  { Object.keys(country.languages).map( (key, value) => {
-                    return <li>{country.languages[key]}</li>
-                  }) }
+                  {Object.keys(country.languages).map((key, value) => {
+                    return <li>{country.languages[key]}</li>;
+                  })}
                 </ul>
-                <img src={country.flags['png']} alt={country.flags['alt']}/>
+                <img src={country.flags["png"]} alt={country.flags["alt"]} />
               </>
             );
           })
@@ -64,13 +96,23 @@ function App() {
             country.name.official.toLowerCase().includes(search)
           )
           .map((country, i) => {
-            return <p key={i}>{country.name.official}</p>;
+            return (
+              <div key={i}>
+                <p>
+                  {country.name.official}{" "}
+                  <button onClick={() => handleDetails(country.name.official)}>
+                    show
+                  </button>
+                </p>
+              </div>
+            );
           })
+      )}
+      {showDetail && (
+        <ShowCountry countries={countries} countrySelect={showDetail} />
       )}
     </div>
   );
 }
-
-// country.name.official.toLowerCase().includes(search)
 
 export default App;
