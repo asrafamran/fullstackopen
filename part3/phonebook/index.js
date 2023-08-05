@@ -1,5 +1,7 @@
+const { json } = require("body-parser");
 const express = require("express");
 const app = express();
+var morgan = require("morgan");
 
 app.use(express.json());
 
@@ -10,8 +12,22 @@ const requestLogger = (request, response, next) => {
   console.log("---");
   next();
 };
-
-app.use(requestLogger);
+app.use(
+  requestLogger,
+  morgan(function (tokens, req, res) {
+    console.log(req.body);
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, "content-length"),
+      "-",
+      tokens["response-time"](req, res),
+      "ms",
+      JSON.stringify(req.body),
+    ].join(" ");
+  })
+);
 
 let persons = [
   {
@@ -62,7 +78,7 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-app.post("/api/persons/", (request, response) => {
+app.post("/api/persons", (request, response) => {
   if (request.body.name && request.body.number) {
     if (!persons.find((person) => person.name === request.body.name)) {
       const person = {
@@ -90,6 +106,12 @@ app.get("/info", (request, response) => {
       <p>${utcStr}</p>
     </div>`);
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 app.listen(PORT, () => {
